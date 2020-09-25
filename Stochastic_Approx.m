@@ -1,4 +1,4 @@
-function Stochastic_Approx = Stochastic_Approx(dydt, yt_actual_vec, y_initial, k_initial, step_size, step_count, optimize_k, chart_title)
+function Stochastic_Approx = Stochastic_Approx(dydt, yt_actual_vec, y_initial, k_initial, step_size, step_count, optimize_k, chart_title, x_label, y_label)
     % dydt: @(y, k)
     % This variable should be a function that returns the derivative given y and k.
 
@@ -42,7 +42,15 @@ function Stochastic_Approx = Stochastic_Approx(dydt, yt_actual_vec, y_initial, k
     end
 
     if ~exist('chart_title', 'var')
-        optimize_k = "Drug Model";
+        chart_title = "Model";
+    end
+
+    if ~exist('y_label', 'var')
+        y_label = "y";
+    end
+
+        if ~exist('x_label', 'var')
+        x_label = "t";
     end
 
     %% PRINT STUFF %%
@@ -95,8 +103,8 @@ function Stochastic_Approx = Stochastic_Approx(dydt, yt_actual_vec, y_initial, k
     end
 
     % Using the optimized k values to perform Euler's Method and RK2
-    y_vals_euler = stochastic_euler(y_initial, euler_k, step_size, step_count);
-    y_vals_euler_improved = stochastic_euler_improved(y_initial, euler_improved_k, step_size, step_count);
+    y_vals_euler = stochastic_euler(y_initial, euler_k, step_size, step_count)
+    y_vals_euler_improved = stochastic_euler_improved(y_initial, euler_improved_k, step_size, step_count)
 
     % Initializing time vector for the plot's x-axis
     t_vec = get_t_vec(step_size, step_count);
@@ -128,8 +136,8 @@ function Stochastic_Approx = Stochastic_Approx(dydt, yt_actual_vec, y_initial, k
         plot(t_vec, y_vals_euler, '--x', t_vec, y_vals_euler_improved, '--o');
         legend(euler_legend_label, euler_improved_legend_label);
     end
-    xlabel('time [hours]');
-    ylabel('Drug in body at time t [mg]');
+    xlabel(x_label);
+    ylabel(y_label);
     title(chart_title)
 end
 
