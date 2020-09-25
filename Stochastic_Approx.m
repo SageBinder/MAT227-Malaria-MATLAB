@@ -115,7 +115,8 @@ function Stochastic_Approx = Stochastic_Approx(dydt, yt_actual_vec, y_initial, k
         euler_improved_sse = euler_improved_sse_func(euler_improved_k, y_initial)
 
         % Computing the actual y values using the differential equation's analytical solution
-        t_vals_actual = get_t_vec(0.1, (step_size * step_count) / 0.1);
+        yt_actual_step_size = min([0.01, step_size])
+        t_vals_actual = get_t_vec(yt_actual_step_size, (step_size * step_count) / (yt_actual_step_size));
         y_vals_actual = yt_actual_vec(t_vals_actual);
     end
 
